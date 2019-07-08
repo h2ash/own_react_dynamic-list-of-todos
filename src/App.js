@@ -7,6 +7,7 @@ class App extends React.Component {
   state = {
     todosWithUsers: null,
     sortedTodos: null,
+    direction: 1,
     isLoading: false,
     isLoaded: false,
   }
@@ -39,14 +40,15 @@ class App extends React.Component {
 
   sortFun = (typeSortBy) => {
     this.setState(state => ({
+      direction: state.direction === 1 ? -1 : 1,
       sortedTodos: [...state.todosWithUsers].sort((a, b) => {
         switch(typeSortBy) {
           case 'byTitle':
-            return a.title.localeCompare(b.title);
+            return a.title.localeCompare(b.title) * state.direction;
           case 'byUser':
-            return a.user.name.localeCompare(b.user.name);
+            return a.user.name.localeCompare(b.user.name) * state.direction;
           case 'byCompleted':
-            return (b.completed - a.completed);
+            return (b.completed - a.completed) * state.direction;
           default:
             return 0;
         }
