@@ -1,8 +1,12 @@
 import React from 'react';
 import Button from './components/Button'
+import TodoList from './components/TodoList'
+import { thisExpression } from '@babel/types';
 
 class App extends React.Component {
   state = {
+    todosWithUsers: null,
+    sortedTodos: null,
     isLoading: false,
     isLoaded: false,
   }
@@ -23,11 +27,31 @@ class App extends React.Component {
       ...todo,
       user: users.find(user => user.id === todo.userId),
     }));
+    console.log(todosWithUsers);
 
     this.setState({
+      todosWithUsers: todosWithUsers,
+      sortedTodos: todosWithUsers,
       isLoading: false,
       isLoaded: true,
     })
+  }
+
+  sortFun = (typeSortBy) => {
+    this.setState(state => ({
+      sortedTodos: [...state.todosWithUsers].sort((a, b) => {
+        switch(typeSortBy) {
+          case 'byTitle':
+            return a.title.localeCompare(b.title);
+          case 'byUser':
+            return a.user.name.localeCompare(b.user.name);
+          case 'byCompleted':
+            return (b.completed - a.completed);
+          default:
+            return 0;
+        }
+      }),
+    }))
   }
 
   render() {
@@ -35,18 +59,19 @@ class App extends React.Component {
       <div>
         {
           this.state.isLoaded
-            ? 'zaglushka for isLoaded'
+            ? <TodoList 
+                sortFun={this.sortFun}
+                sortedTodos={this.state.sortedTodos}
+              />
             : <Button 
                 isLoading={this.state.isLoading}
                 getData={this.getData}
-                todosWithUsers={this.getData.todosWithUsers}
               />
         }
       </div>
     )
   }
   
-
 }
 
 export default App;
