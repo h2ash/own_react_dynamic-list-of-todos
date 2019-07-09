@@ -3,10 +3,10 @@ import React from 'react'
 const Button = ({ isLoading, getData }) => (
   <div>
     
-    <button onClick={getData}>
+    <button onClick={getData} disabled={isLoading}>
       {
         isLoading
-          ? 'Loding...'
+          ? 'Loading...'
           : 'Load'
       }
     </button>

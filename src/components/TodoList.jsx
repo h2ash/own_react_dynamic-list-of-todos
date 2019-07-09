@@ -1,19 +1,19 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ sortedTodos, sortFun }) => (
+const TodoList = ({ sortedTodos, sortFunc }) => (
   <table>
     <thead>
       <tr>
         <th>ID</th>
         <th onClick={() => {
-          sortFun('byTitle')
+          sortFunc('byTitle')
         }}>Title</th>
         <th onClick={() => {
-          sortFun('byUser')
+          sortFunc('byUser')
         }}>User</th>
         <th onClick={() => {
-          sortFun('byCompleted')
+          sortFunc('byCompleted')
         }}>Completed</th>
       </tr>
     </thead>
